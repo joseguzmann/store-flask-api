@@ -11,3 +11,5 @@ class ItemModel(db.Model):
         "stores.id"), unique=False, nullable=False)
     # Para establecer una referencia a Store con item.store
     store = db.relationship("StoreModel", back_populates="items")
+    tags = db.relationship(
+        "TagModel", back_populates="items", secondary="items_tags")
