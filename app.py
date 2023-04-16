@@ -4,6 +4,7 @@ import secrets
 from flask import Flask, jsonify
 from flask_smorest import Api
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate
 
 from db import db
 from blocklist import BLOCKLIST
@@ -29,7 +30,7 @@ def create_app(db_url=None):
         "DATABASE_URL", "sqlite:///data.db")
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.init_app(app)
-
+    migrate = Migrate(app, db)
     api = Api(app)
 
     app.config["JWT_SECRET_KEY"] = "280605676998343473689219698815199019541"
@@ -91,9 +92,9 @@ def create_app(db_url=None):
             401
         )
 
-    @app.before_first_request
-    def create_tables():
-        db.create_all()
+    # @app.before_first_request # Esto no se necesita luego de utilizar Flask-Migrate para crear la base de datos
+    # def create_tables():
+    #     db.create_all()
 
     api.register_blueprint(ItemBlueprint)
     api.register_blueprint(StoreBlueprint)
