@@ -1,5 +1,7 @@
-# Virtualenv
+.env
 .venv
-venv
-ENV/
-env/
+.vscode
+__pycache__
+data.db
+*.pyc
+.DS_Store
